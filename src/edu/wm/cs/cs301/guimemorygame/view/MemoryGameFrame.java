@@ -22,9 +22,10 @@ public class MemoryGameFrame {
 	
 	private final JFrame frame;
 	
-//	private final CharacterGridPanel characterGridPanel;
+	private final CharacterGridPanel characterGridPanel;
 	
 	public MemoryGameFrame(MemoryGameModel model) {
+		this.characterGridPanel = new CharacterGridPanel(this, model, model.getCols() * 100);
 		this.frame = createAndShowGUI();
 	}
 	
@@ -41,7 +42,7 @@ public class MemoryGameFrame {
 		});
 		
 		frame.add(createTitlePanel(), BorderLayout.NORTH);
-//		frame.add(characterGridPanel, BorderLayout.CENTER);
+		frame.add(characterGridPanel, BorderLayout.CENTER);
 		
 		frame.pack();
 		frame.setLocationByPlatform(true);
