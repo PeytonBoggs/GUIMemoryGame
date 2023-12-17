@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -18,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import edu.wm.cs.cs301.guimemorygame.controller.KeyboardButtonAction;
 import edu.wm.cs.cs301.guimemorygame.model.MemoryGameModel;
 
 public class MemoryGameBoard {
@@ -26,10 +29,13 @@ public class MemoryGameBoard {
 	
 	private final JPanel characterGridPanel;
 	
+	private final KeyboardButtonAction action;
+	
 	public MemoryGameBoard(MemoryGameModel model) {
 		displayInstructions();
 		
-		this.characterGridPanel = createCharacterGridPanel(model.getRows(), model.getCols(), model.getPieces());
+		this.action = new KeyboardButtonAction(this, model);
+		this.characterGridPanel = createCharacterGridPanel(model.getRows(), model.getCols(), model.getCharacters());
 		this.frame = createAndShowGUI();
 	}
 	
@@ -93,12 +99,16 @@ public class MemoryGameBoard {
 		return panel;
 	}
 	
-	private JPanel createCharacterGridPanel(int r, int c, CharacterGamePiece[][] pieces) {
+	private JPanel createCharacterGridPanel(int r, int c, List<String> characters) {
 		JPanel panel = new JPanel(new GridLayout(r, c, 10, 10));
 
+		int characterIndex = 0;
 		for (int i = 0; i < r; i++) {
 			for (int j = 0; j < c; j++) {
-				panel.add(new JButton(pieces[i][j].getSymbol().toString()));
+				CharacterGamePiece temp = new CharacterGamePiece(characters.get(characterIndex));
+				temp.addActionListener(action);
+				panel.add(temp);
+				characterIndex++;
 			}
 		}
 		

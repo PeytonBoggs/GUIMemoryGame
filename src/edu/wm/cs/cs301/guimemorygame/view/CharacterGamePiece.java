@@ -1,31 +1,36 @@
 package edu.wm.cs.cs301.guimemorygame.view;
 
-public class CharacterGamePiece implements GamePiece {
+import javax.swing.JButton;
 
-	private final Character symbol;
-	private boolean visible;
+public class CharacterGamePiece extends JButton {
 	
-	public CharacterGamePiece(char s) {
+	private static final long serialVersionUID = 1L;
+	private final String symbol;
+	private boolean revealed;
+	
+	public CharacterGamePiece(String s) {
 		this.symbol = s;
-		this.visible = false;
+		this.revealed = false;		
+		
+		setText(getSymbol());
 	}
 
-	public Character getSymbol() {
-		if (visible) {
+	public String getSymbol() {
+		if (revealed) {
 			return this.symbol;
 		}
-		return '?';
+		return "?";
 	}
 	
-	public void setVisible(boolean v) {
-		visible = v;
+	public void setRevealed(boolean v) {
+		revealed = v;
 	}
 	
-	public boolean isVisible() {
-		return visible;
+	public boolean isRevealed() {
+		return revealed;
 	}
 	
-	public boolean equals(GamePiece other) {		
+	public boolean equals(CharacterGamePiece other) {		
 		if (symbol.compareTo(other.getSymbol()) == 0) {
 			return true;
 		}
