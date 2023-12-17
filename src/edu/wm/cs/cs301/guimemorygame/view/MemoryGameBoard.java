@@ -20,16 +20,16 @@ import javax.swing.KeyStroke;
 
 import edu.wm.cs.cs301.guimemorygame.model.MemoryGameModel;
 
-public class MemoryGameFrame {
+public class MemoryGameBoard {
 	
 	private final JFrame frame;
 	
 	private final JPanel characterGridPanel;
 	
-	public MemoryGameFrame(MemoryGameModel model) {
+	public MemoryGameBoard(MemoryGameModel model) {
 		displayInstructions();
 		
-		this.characterGridPanel = createCharacterGridPanel(model.getRows(), model.getCols());
+		this.characterGridPanel = createCharacterGridPanel(model.getRows(), model.getCols(), model.getPieces());
 		this.frame = createAndShowGUI();
 	}
 	
@@ -93,12 +93,12 @@ public class MemoryGameFrame {
 		return panel;
 	}
 	
-	private JPanel createCharacterGridPanel(int r, int c) {
+	private JPanel createCharacterGridPanel(int r, int c, CharacterGamePiece[][] pieces) {
 		JPanel panel = new JPanel(new GridLayout(r, c, 10, 10));
-		
+
 		for (int i = 0; i < r; i++) {
 			for (int j = 0; j < c; j++) {
-				panel.add(new JButton("?"));
+				panel.add(new JButton(pieces[i][j].getSymbol().toString()));
 			}
 		}
 		
@@ -106,7 +106,6 @@ public class MemoryGameFrame {
 	}
 	
 	public void shutdown() {
-//		model.getStatistics().writeStatistics();
 		frame.dispose();
 		System.exit(0);
 	}
