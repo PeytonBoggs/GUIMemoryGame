@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.guimemorygame.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -11,6 +12,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.InputMap;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,10 +24,10 @@ public class MemoryGameFrame {
 	
 	private final JFrame frame;
 	
-	private final CharacterGridPanel characterGridPanel;
+	private final JPanel characterGridPanel;
 	
 	public MemoryGameFrame(MemoryGameModel model) {
-		this.characterGridPanel = new CharacterGridPanel(this, model, model.getCols() * 100);
+		this.characterGridPanel = createCharacterGridPanel(model.getRows(), model.getCols());
 		this.frame = createAndShowGUI();
 	}
 	
@@ -65,6 +67,18 @@ public class MemoryGameFrame {
 		JLabel label = new JLabel("MemoryGame");
 		label.setFont(AppFonts.getTitleFont());
 		panel.add(label);
+		
+		return panel;
+	}
+	
+	private JPanel createCharacterGridPanel(int r, int c) {
+		JPanel panel = new JPanel(new GridLayout(r, c, 10, 10));
+		
+		for (int i = 0; i < r; i++) {
+			for (int j = 0; j < c; j++) {
+				panel.add(new JButton("?"));
+			}
+		}
 		
 		return panel;
 	}
