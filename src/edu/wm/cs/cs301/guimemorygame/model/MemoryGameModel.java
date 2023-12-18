@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.wm.cs.cs301.guimemorygame.view.CharacterGamePiece;
+
 public class MemoryGameModel {
 	
 	private int rows;
 	private int cols;
+	private int turn;
 	private List<String> characters;
 	
 	public MemoryGameModel() {
 		this.rows = 3;
 		this.cols = 4;
+		this.turn = 1;
 		this.characters = generateCharacters();
 	}
 	
@@ -33,12 +37,24 @@ public class MemoryGameModel {
 		return symbolList;
 	}
 	
+	public String handleClick(CharacterGamePiece piece) {
+		String instruction = "";
+		
+		turn++;
+		
+		return instruction;
+	}
+	
 	public int getRows() {
 		return rows;
 	}
 	
 	public int getCols() {
 		return cols;
+	}
+	
+	public int getTurn() {
+		return turn;
 	}
 	
 	public List<String> getCharacters() {

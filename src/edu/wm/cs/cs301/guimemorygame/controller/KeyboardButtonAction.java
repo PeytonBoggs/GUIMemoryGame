@@ -3,7 +3,6 @@ package edu.wm.cs.cs301.guimemorygame.controller;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JButton;
 
 import edu.wm.cs.cs301.guimemorygame.model.MemoryGameModel;
 import edu.wm.cs.cs301.guimemorygame.view.CharacterGamePiece;
@@ -26,7 +25,14 @@ public class KeyboardButtonAction extends AbstractAction {
 	public void actionPerformed(ActionEvent event) {
 		CharacterGamePiece piece = (CharacterGamePiece) event.getSource();
 		
-		piece.setRevealed(!piece.isRevealed());	
-		piece.setText(piece.getSymbol());	
+		if (piece.getSymbol() != "?") {
+			board.setInstructionLabel("You cannot flip a revealed card!");
+		} else {
+			piece.setRevealed(!piece.isRevealed());	
+			piece.setText(piece.getSymbol());
+			
+			board.setTurnLabel(model.getTurn());
+			board.setInstructionLabel(model.handleClick(piece));
+		}
 	}
 }
