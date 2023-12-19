@@ -8,7 +8,7 @@ import edu.wm.cs.cs301.guimemorygame.model.MemoryGameModel;
 import edu.wm.cs.cs301.guimemorygame.view.CharacterGamePiece;
 import edu.wm.cs.cs301.guimemorygame.view.MemoryGameBoard;
 
-public class KeyboardButtonAction extends AbstractAction {
+public class CardClickAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -16,7 +16,7 @@ public class KeyboardButtonAction extends AbstractAction {
 	
 	private final MemoryGameModel model;
 
-	public KeyboardButtonAction(MemoryGameBoard board, MemoryGameModel model) {
+	public CardClickAction(MemoryGameBoard board, MemoryGameModel model) {
 		this.board = board;
 		this.model = model;
 	}
@@ -32,10 +32,14 @@ public class KeyboardButtonAction extends AbstractAction {
 				piece.setRevealed(!piece.isRevealed());	
 				piece.setText(piece.getSymbol());
 				
+				String instruction = model.handleGuess(piece);
 				
-				
-				board.setInstructionLabel(model.handleGuess(piece));
+				board.setInstructionLabel(instruction);
 				board.setTurnLabel(model.getTurn());
+				
+				if (instruction.contains("Game won")) {
+					board.showNewGameGUI();
+				}
 			}
 		}
 	}

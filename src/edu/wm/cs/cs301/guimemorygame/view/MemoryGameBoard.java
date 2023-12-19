@@ -8,38 +8,40 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import edu.wm.cs.cs301.guimemorygame.controller.KeyboardButtonAction;
+import edu.wm.cs.cs301.guimemorygame.controller.CardClickAction;
+import edu.wm.cs.cs301.guimemorygame.controller.NewGameAction;
 import edu.wm.cs.cs301.guimemorygame.model.MemoryGameModel;
 
 public class MemoryGameBoard {
 	
-	private final JFrame frame;
-	
+	private JFrame gameFrame;
 	private JPanel titlePanel;
-	
 	private JLabel instructionLabel;
-	
-	private final JPanel characterGridPanel;
-	
+	private JPanel characterGridPanel;
 	private JPanel turnPanel;
-	
 	private JLabel turnLabel;
 	
-	private final KeyboardButtonAction action;
+	private JFrame newGameFrame;
+	
+	private CardClickAction cardClickAction;
+	private NewGameAction newGameAction;
 	
 	public MemoryGameBoard(MemoryGameModel model) {		
-		this.action = new KeyboardButtonAction(this, model);
+		this.cardClickAction = new CardClickAction(this, model);
+		this.newGameAction = new NewGameAction(this, model);
 		this.instructionLabel = new JLabel("Click on a card to begin", JLabel.CENTER);
 		this.titlePanel = createTitlePanel();
 		this.characterGridPanel = createCharacterGridPanel(model.getRows(), model.getCols(), model.getCharacters());
 		this.turnLabel = new JLabel("Turn: " + model.getTurn(), JLabel.CENTER);
 		this.turnPanel = createTurnPanel(model.getTurn());
-		this.frame = createAndShowGUI();
+		this.gameFrame = createAndShowGUI();
+		this.newGameFrame = createNewGameGUI();
 	}
 	
 	private JFrame createAndShowGUI() {
@@ -61,8 +63,6 @@ public class MemoryGameBoard {
 		frame.pack();
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
-		
-		System.out.println("Frame size: " + frame.getSize());
 		
 		return frame;
 	}
@@ -87,7 +87,7 @@ public class MemoryGameBoard {
 		for (int i = 0; i < r; i++) {
 			for (int j = 0; j < c; j++) {
 				CharacterGamePiece temp = new CharacterGamePiece(characters.get(characterIndex));
-				temp.addActionListener(action);
+				temp.addActionListener(cardClickAction);
 				panel.add(temp);
 				characterIndex++;
 			}
@@ -116,8 +116,46 @@ public class MemoryGameBoard {
 		turnLabel.setText("Turn: " + t);
 	}
 	
+	private JFrame createNewGameGUI() {
+		JFrame frame = new JFrame("Play Again?");
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setResizable(false);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			 public void windowClosing(WindowEvent event) {
+				shutdown();
+			}
+		});
+		
+		JPanel panel = new JPanel(new FlowLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
+		
+		JButton playButton = new JButton("Play Again");
+		JButton exitButton = new JButton("Exit");
+		
+		playButton.addActionListener(newGameAction);
+		exitButton.addActionListener(newGameAction);
+		
+		panel.add(playButton);
+		panel.add(exitButton);
+		
+		frame.add(panel);
+		frame.pack();
+		frame.setLocationByPlatform(true);
+		
+		return frame;
+	}
+	
+	public void showNewGameGUI() {
+		newGameFrame.setVisible(true);
+	}
+	
+	public void shutdownFrame() {
+		gameFrame.dispose();
+		newGameFrame.dispose();
+	}
 	public void shutdown() {
-		frame.dispose();
+		gameFrame.dispose();
 		System.exit(0);
 	}
 }

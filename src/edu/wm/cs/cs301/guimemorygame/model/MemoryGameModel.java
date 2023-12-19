@@ -14,6 +14,7 @@ public class MemoryGameModel {
 	private int rows;
 	private int cols;
 	private int turn;
+	private int matches;
 	private List<String> characters;
 	
 	private CharacterGamePiece firstGuess;
@@ -24,6 +25,7 @@ public class MemoryGameModel {
 		this.rows = 3;
 		this.cols = 4;
 		this.turn = 1;
+		this.matches = 0;
 		this.characters = generateCharacters();
 		this.firstGuess = null;
 		this.secondGuess = null;
@@ -59,8 +61,13 @@ public class MemoryGameModel {
 			if (firstGuess.equals(secondGuess)) {
 				instruction = "Match!";
 				turn++;
+				matches++;
 				firstGuess = null;
 				secondGuess = null;
+				if (checkWon()) {
+					instruction = "Game won in " + turn + " turns!";
+					freeze = true;
+				}
 			} else {
 				instruction = "No match";
 				turn++;
@@ -85,12 +92,11 @@ public class MemoryGameModel {
 		return instruction;
 	}
 	
-	private void waitTwoSeconds() {
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	private boolean checkWon() {
+		if (matches == 6) {
+			return true;
 		}
+		return false;
 	}
 	
 	public int getRows() {
