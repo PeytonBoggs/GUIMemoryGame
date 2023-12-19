@@ -23,16 +23,20 @@ public class KeyboardButtonAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		CharacterGamePiece piece = (CharacterGamePiece) event.getSource();
-		
-		if (piece.getSymbol() != "?") {
-			board.setInstructionLabel("You cannot flip a revealed card!");
-		} else {
-			piece.setRevealed(!piece.isRevealed());	
-			piece.setText(piece.getSymbol());
+		if (!model.getFreeze()) {
+			CharacterGamePiece piece = (CharacterGamePiece) event.getSource();
 			
-			board.setTurnLabel(model.getTurn());
-			board.setInstructionLabel(model.handleClick(piece));
+			if (piece.getSymbol() != "?") {
+				board.setInstructionLabel("You cannot flip a revealed card!");
+			} else {
+				piece.setRevealed(!piece.isRevealed());	
+				piece.setText(piece.getSymbol());
+				
+				
+				
+				board.setInstructionLabel(model.handleGuess(piece));
+				board.setTurnLabel(model.getTurn());
+			}
 		}
 	}
 }
