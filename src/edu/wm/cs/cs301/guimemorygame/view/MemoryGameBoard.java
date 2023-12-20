@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -34,6 +36,8 @@ public class MemoryGameBoard {
 	
 	private JFrame newGameFrame;
 	
+	private JFrame leaderboardFrame;
+	
 	private CardClickAction cardClickAction;
 	private NewGameAction newGameAction;
 	
@@ -48,6 +52,7 @@ public class MemoryGameBoard {
 		this.turnPanel = createTurnPanel(model.getTurn());
 		this.gameFrame = createAndShowGUI();
 		this.newGameFrame = createNewGameGUI();
+		try { this.leaderboardFrame = createAndShowLeaderboard(model.getLeaderboard()); } catch (IOException e) {}		
 	}
 	
 	private JFrame createAndShowGUI() {
@@ -67,7 +72,7 @@ public class MemoryGameBoard {
 		frame.add(turnPanel, BorderLayout.SOUTH);
 		
 		frame.pack();
-		frame.setLocationByPlatform(true);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
 		return frame;
@@ -172,8 +177,8 @@ public class MemoryGameBoard {
 		panel.add(exitButton);
 		
 		frame.add(panel);
+		frame.setLocationRelativeTo(gameFrame);
 		frame.pack();
-		frame.setLocationByPlatform(true);
 		
 		return frame;
 	}
@@ -182,9 +187,30 @@ public class MemoryGameBoard {
 		newGameFrame.setVisible(true);
 	}
 	
+	public JFrame createAndShowLeaderboard(String[] leaderboard) {
+		JFrame frame = new JFrame("Leaderboard");
+		
+		JPanel panel = new JPanel(new GridLayout(4, 1));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
+		panel.add(new JLabel("Leaderboard:"));
+		panel.add(new JLabel("Easy - " + leaderboard[0] + " with " + leaderboard[1] + " points"));
+		panel.add(new JLabel("Medium - " + leaderboard[2] + " with " + leaderboard[3] + " points"));
+		panel.add(new JLabel("Hard - " + leaderboard[4] + " with " + leaderboard[5] + " points"));
+		
+		frame.add(panel);
+		frame.setPreferredSize(new Dimension(300, 200));
+		frame.pack();
+		frame.setLocation(new Point(50, 200));
+		frame.setVisible(true);
+		
+		return frame;
+	}
+	
 	public void shutdownFrame() {
 		gameFrame.dispose();
 		newGameFrame.dispose();
+		leaderboardFrame.dispose();
 	}
 	public void shutdown() {
 		gameFrame.dispose();

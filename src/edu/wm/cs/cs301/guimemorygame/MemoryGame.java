@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.guimemorygame;
 
 import java.awt.GridLayout;
+import java.awt.Point;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -34,6 +35,7 @@ public class MemoryGame {
 		frame.add(panel);
 		
 		frame.pack();
+		frame.setLocation(new Point(20, 20));
 		frame.setVisible(true);		
 	}
 }
