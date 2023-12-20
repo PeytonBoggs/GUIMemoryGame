@@ -34,10 +34,10 @@ public class MemoryGameModel {
 	}
 	
 	private void initializeRowsCols(String difficulty) {
-		if (difficulty == "easy") {
+		if (difficulty == "Easy") {
 			this.rows = 3;
 			this.cols = 4;
-		} else if (difficulty == "medium") { 
+		} else if (difficulty == "Medium") { 
 			this.rows = 4;
 			this.cols = 7;
 		} else {

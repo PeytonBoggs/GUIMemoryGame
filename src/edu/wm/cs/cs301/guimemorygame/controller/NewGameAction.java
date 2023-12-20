@@ -26,13 +26,13 @@ private static final long serialVersionUID = 1L;
 			new MemoryGameBoard(new MemoryGameModel(model.getDifficulty()));
 			board.shutdownFrame();
 		} else if (event.getActionCommand() == "Easy") {
-			new MemoryGameBoard(new MemoryGameModel("easy"));
+			new MemoryGameBoard(new MemoryGameModel("Easy"));
 			board.shutdownFrame();
 		} else if (event.getActionCommand() == "Medium") {
-			new MemoryGameBoard(new MemoryGameModel("medium"));
+			new MemoryGameBoard(new MemoryGameModel("Medium"));
 			board.shutdownFrame();
 		} else if (event.getActionCommand() == "Hard") {
-			new MemoryGameBoard(new MemoryGameModel("hard"));
+			new MemoryGameBoard(new MemoryGameModel("Hard"));
 			board.shutdownFrame();
 		} else {
 			board.shutdown();

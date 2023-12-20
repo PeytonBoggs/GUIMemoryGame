@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.guimemorygame.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
@@ -29,6 +30,7 @@ public class MemoryGameBoard {
 	private JPanel characterGridPanel;
 	private JPanel turnPanel;
 	private JLabel turnLabel;
+	private JLabel difficultyLabel;
 	
 	private JFrame newGameFrame;
 	
@@ -41,7 +43,8 @@ public class MemoryGameBoard {
 		this.instructionLabel = new JLabel("Click on a card to begin", JLabel.CENTER);
 		this.titlePanel = createTitlePanel();
 		this.characterGridPanel = createCharacterGridPanel(model.getRows(), model.getCols(), model.getCharacters());
-		this.turnLabel = new JLabel("Turn: " + model.getTurn(), JLabel.CENTER);
+		this.turnLabel = new JLabel("Turn: " + model.getTurn());
+		this.difficultyLabel = new JLabel("Difficulty: " + model.getDifficulty());
 		this.turnPanel = createTurnPanel(model.getTurn());
 		this.gameFrame = createAndShowGUI();
 		this.newGameFrame = createNewGameGUI();
@@ -112,6 +115,8 @@ public class MemoryGameBoard {
 		for (int i = 0; i < r; i++) {
 			for (int j = 0; j < c; j++) {
 				CharacterGamePiece temp = new CharacterGamePiece(characters.get(characterIndex));
+				temp.setPreferredSize(new Dimension(75, 50));
+				temp.setFont(AppFonts.getTextFont());
 				temp.addActionListener(cardClickAction);
 				panel.add(temp);
 				characterIndex++;
@@ -123,11 +128,13 @@ public class MemoryGameBoard {
 	}
 	
 	private JPanel createTurnPanel(int t) {
-		JPanel panel = new JPanel(new FlowLayout());
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
+		JPanel panel = new JPanel(new BorderLayout());
+		
+		difficultyLabel.setFont(AppFonts.getTextFont());
+		panel.add(difficultyLabel, BorderLayout.WEST);
 		
 		turnLabel.setFont(AppFonts.getTextFont());
-		panel.add(turnLabel);
+		panel.add(turnLabel, BorderLayout.EAST);
 		
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		return panel;
