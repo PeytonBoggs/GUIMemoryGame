@@ -11,6 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -47,7 +50,7 @@ public class MemoryGameBoard {
 	private JFrame createAndShowGUI() {
 		JFrame frame = new JFrame("Memory Game");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//		frame.setJMenuBar(createMenuBar());
+		frame.setJMenuBar(createMenuBar());
 		frame.setResizable(false);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -65,6 +68,28 @@ public class MemoryGameBoard {
 		frame.setVisible(true);
 		
 		return frame;
+	}
+	
+	private JMenuBar createMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		
+		JMenu difficultyMenu = new JMenu("Difficulty");
+		
+		JMenuItem easyItem = new JMenuItem("Easy");
+		easyItem.addActionListener(newGameAction);
+		difficultyMenu.add(easyItem);
+		
+		JMenuItem mediumItem = new JMenuItem("Medium");
+		mediumItem.addActionListener(newGameAction);
+		difficultyMenu.add(mediumItem);
+		
+		JMenuItem hardItem = new JMenuItem("Hard");
+		hardItem.addActionListener(newGameAction);
+		difficultyMenu.add(hardItem);
+		
+		menuBar.add(difficultyMenu);
+		
+		return menuBar;
 	}
 
 	private JPanel createTitlePanel() {

@@ -14,11 +14,7 @@ public class MemoryGame {
 
 	public static void main(String[] args) {
 		displayInstructions();
-		playGame();
-	}
-	
-	private static void playGame() {
-		new MemoryGameBoard(new MemoryGameModel());
+		new MemoryGameBoard(new MemoryGameModel("medium"));
 	}
 	
 	private static void displayInstructions() {

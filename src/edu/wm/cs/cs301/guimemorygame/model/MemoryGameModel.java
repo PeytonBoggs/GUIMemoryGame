@@ -11,6 +11,7 @@ import edu.wm.cs.cs301.guimemorygame.view.CharacterGamePiece;
 
 public class MemoryGameModel {
 	
+	private String difficulty;
 	private int rows;
 	private int cols;
 	private int turn;
@@ -21,9 +22,9 @@ public class MemoryGameModel {
 	private CharacterGamePiece secondGuess;
 	private boolean freeze;
 	
-	public MemoryGameModel() {
-		this.rows = 3;
-		this.cols = 4;
+	public MemoryGameModel(String difficulty) {
+		this.difficulty = difficulty;
+		initializeRowsCols(difficulty);
 		this.turn = 1;
 		this.matches = 0;
 		this.characters = generateCharacters();
@@ -32,11 +33,28 @@ public class MemoryGameModel {
 		this.freeze = false;
 	}
 	
+	private void initializeRowsCols(String difficulty) {
+		if (difficulty == "easy") {
+			this.rows = 3;
+			this.cols = 4;
+		} else if (difficulty == "medium") { 
+			this.rows = 4;
+			this.cols = 7;
+		} else {
+			this.rows = 7;
+			this.cols = 8;
+		}
+	}
+	
+	private int getNumPairs() {
+		return (rows * cols) / 2;
+	}
+	
 	private List<String> generateCharacters() {		
 		String[] tempSymbols = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b"};
 		
-		String[] alphabet = new String[6];
-		System.arraycopy(tempSymbols, 0, alphabet, 0, 6);
+		String[] alphabet = new String[getNumPairs()];
+		System.arraycopy(tempSymbols, 0, alphabet, 0, getNumPairs());
 		
 		List<String> symbolList = new ArrayList<String>();
 		for (String c : alphabet) {
@@ -93,10 +111,14 @@ public class MemoryGameModel {
 	}
 	
 	private boolean checkWon() {
-		if (matches == 6) {
+		if (matches == getNumPairs()) {
 			return true;
 		}
 		return false;
+	}
+	
+	public String getDifficulty() {
+		return difficulty;
 	}
 	
 	public int getRows() {
